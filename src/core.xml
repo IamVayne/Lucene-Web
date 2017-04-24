@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>剔除和替换的词典配置</comment>
+	<entry key = "fly_dic">flywords;</entry>
+	<entry key="rep_dic">repwords.properties;</entry>
+</properties>
