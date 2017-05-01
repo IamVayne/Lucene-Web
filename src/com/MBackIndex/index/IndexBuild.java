@@ -6,6 +6,7 @@
 package com.MBackIndex.index;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -24,8 +25,7 @@ import com.MBackData.window.ContextOut;
 import com.MBackData.window.lineContextOut;
 
 /**
- * 类: IndexBuild 
- * 概述：索引构建类
+ * 类: IndexBuild 概述：索引构建类
  */
 public class IndexBuild
 {
@@ -47,11 +47,33 @@ public class IndexBuild
 	{
 		ContextOut ct = new lineContextOut();
 		File dir = new File(SOURCE_PATH);
-		for (File file : dir.listFiles())
+		IndexBuild ib = new IndexBuild();
+		List<File> list = new ArrayList<>();
+		List<File> files = ib.getFilelist(dir, list);
+		for (File file : files)
 		{
 			List<String> res = ct.getBaseString(file);
-			new IndexBuild().buildIndex(res);
+			ib.buildIndex(res);
 		}
+	}
+
+	public List<File> getFilelist(File file, List<File> list)
+	{
+		if (!file.exists())
+		{
+			return null;
+		}
+		if (file.isDirectory())
+		{
+			for (File e : file.listFiles())
+			{
+				getFilelist(e, list);
+			}
+		} else
+		{
+			list.add(file);
+		}
+		return list;
 	}
 
 	/**

@@ -9,10 +9,12 @@
 <body>
 
 <form action="servlet/Search" method = "post">
-	<h5>请输入文本： </h5>
-	<input type = "text" name="question">
+<h5 align="center">智能手机APP云服务系统搜索模块研究与开发</h5>
+	<h4 align="center">请输入文本： </h4>
+	<div align="center">
+	<input align="middle" type = "text" name="question">
 	<input type="submit" value="search">
-	
+	</div>
 </form>
 
 </body>

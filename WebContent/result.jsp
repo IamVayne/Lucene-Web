@@ -11,6 +11,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
+<br>
+<br>
+<br>
+<h5 align="center">搜索结果</h5>
 <body>
 	<table border="1" align="center">
 		<tr>

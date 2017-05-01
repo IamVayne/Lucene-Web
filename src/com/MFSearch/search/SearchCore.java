@@ -31,6 +31,8 @@ import com.MBackIndex.index.IndexBuild;
 import com.MFSearch.util.GenerateQuery;
 import com.MFSearch.util.ListOccurs;
 
+import edu.vayne.window.SLBFilter;
+
 /**
  * 类: SearchTest
  *
@@ -71,26 +73,19 @@ public class SearchCore
 			IndexSearcher iSearcher = new IndexSearcher(iReader);
 			querys = new ArrayList<>();
 			occurs = new ArrayList<>();
-
 			Analyzer analyzer = new IKAnalyzer(true);
-
+			input = SLBFilter.remAndrepWords(input).replace(" ", "");
 			ListOccurs.getOccursList(input, analyzer, querys, occurs);
-
 			Query query = GenerateQuery.getQuery(querys, occurs);
 			querysave = query;
-
 			Sort sort = new Sort();
-
 			TopDocs topDocs = iSearcher.search(query, RESULT_COUNT, sort);
-
 			System.out.println("命中：" + topDocs.totalHits);
-
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
 			if (topDocs.totalHits < RESULT_COUNT)
 			{
 				RESULT_COUNT = topDocs.totalHits;
 			}
-
 			for (int i = 0; i < RESULT_COUNT; i++)
 			{
 				search_result.add(iSearcher.doc(scoreDocs[i].doc));
@@ -132,6 +127,8 @@ public class SearchCore
 			occurs = new ArrayList<>();
 
 			Analyzer analyzer = new IKAnalyzer(true);
+			
+			input = SLBFilter.remAndrepWords(input).replace(" ", "");
 
 			ListOccurs.getOccursList(input, analyzer, querys, occurs);
 

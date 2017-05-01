@@ -13,6 +13,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
+<div align="center">
 <body>
 	<font color="red">题目：</font>
 	<%=((String)request.getAttribute("q")).replace("$","")%>
@@ -21,4 +22,5 @@
 	<font color="red">答案:</font><br>
 	<%=ans.replace("$","")%>
 </body>
+</div>
 </html>
