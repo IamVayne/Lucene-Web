@@ -17,8 +17,7 @@ import com.MBackData.util.XmlBuilder;
 
 /**
  * 
- * 类: lineCcontextOut
- * 概述: 接口ContextOut的一个实现类，包含一个测试方法main
+ * 类: lineCcontextOut 概述: 接口ContextOut的一个实现类，包含一个测试方法main
  */
 public class lineContextOut implements ContextOut
 {
@@ -39,6 +38,7 @@ public class lineContextOut implements ContextOut
 
 	/**
 	 * 方法: getBaseString
+	 * 
 	 * @param 指定的一个file
 	 * @return file经过处理之后file的名字、路径和内容组成的list
 	 */
@@ -55,38 +55,29 @@ public class lineContextOut implements ContextOut
 		{
 			file_path = file.getAbsolutePath();
 			file_name = file.getName();
-			if (EncodingDetect.getJavaEncode(file_path).equals("UTF-8"))
-			{
-				System.out.println("文件编码：" + "UTF-8");
-			} else if (EncodingDetect.getJavaEncode(file_path).equals("GB2312"))
-			{
-				FileCharsetConverter.convert(file, "GB2312", "UTF-8");
-				System.out.println("文件编码：" + "GB2312");
-			} else if (EncodingDetect.getJavaEncode(file_path).equals("GBK"))
-			{
-				FileCharsetConverter.convert(file, "GBK", "UTF-8");
-				System.out.println("文件编码：" + "GBK");
-			}
+			/*
+			 * if (EncodingDetect.getJavaEncode(file_path).equals("UTF-8")) {
+			 * FileCharsetConverter.convert(file, "GB2312", "UTF-8"); //
+			 * System.out.println("文件编码：" + "UTF-8"); } else if
+			 * (EncodingDetect.getJavaEncode(file_path).equals("GB2312")) { //
+			 * FileCharsetConverter.convert(file, "GB2312", "UTF-8"); //
+			 * System.out.println("文件编码：" + "GB2312"); } else if
+			 * (EncodingDetect.getJavaEncode(file_path).equals("GBK")) {
+			 * FileCharsetConverter.convert(file, "GBK", "GB2312"); //
+			 * System.out.println("文件编码：" + "GBK"); }
+			 */
 
-			if (file.isDirectory())
-			{
-				for (File ele : file.listFiles())
-				{
-					File newFile = new File(ele.getAbsolutePath());
-					InputStream in = convertToxml.getAllstream(newFile);
-					result = saxparser.getStringwithSAX(in);
-				}
-			} else
-			{
-				File newFile = new File(file.getAbsolutePath());
-				InputStream in = convertToxml.getAllstream(newFile);
-				result = saxparser.getStringwithSAX(in);
-
-			}
+//			File newFile = new File(file.getAbsolutePath());
+			InputStream in = convertToxml.getAllstream(file);
+			result = saxparser.getStringwithSAX(in);
 
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+		if (result == null)
+		{
+			return null;
 		}
 		list = new ArrayList<>();
 		list.add(file_name);

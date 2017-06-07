@@ -15,8 +15,7 @@ import java.util.Vector;
 
 /**
  * 
- * 类: XmlBuilder 
- * 概述：建立Xml文件的类
+ * 类: XmlBuilder 概述：建立Xml文件的类
  */
 public class XmlBuilder
 {
@@ -29,13 +28,32 @@ public class XmlBuilder
 	 */
 	public InputStream getAllstream(File file)
 	{
+		InputStream pre = null;
+		InputStream end = null;
 		try
 		{
 			Vector<InputStream> vec = new Vector<>();
 			InputStream input = new FileInputStream(file);
-			InputStream pre = new ByteArrayInputStream(
-					"<?xml version = \"1.0\" encoding = \"utf8\"?><data>".getBytes());
-			InputStream end = new ByteArrayInputStream("</data>".getBytes());
+			String file_path = file.getAbsolutePath();
+			if (EncodingDetect.getJavaEncode(file_path).equals("GB2312"))
+			{
+//				System.out.println("编码：gb2312");
+				pre = new ByteArrayInputStream("<?xml version = \"1.0\" encoding = \"gb2312\"?><data>".getBytes());
+				end = new ByteArrayInputStream("</data>".getBytes());
+			} else if (EncodingDetect.getJavaEncode(file_path).equals("UTF-8"))
+			{
+				pre = new ByteArrayInputStream("<?xml version = \"1.0\" encoding = \"utf8\"?><data>".getBytes());
+				end = new ByteArrayInputStream("</data>".getBytes());
+			} else if (EncodingDetect.getJavaEncode(file_path).equals("GBK"))
+			{
+				pre = new ByteArrayInputStream("<?xml version = \"1.0\" encoding = \"gbk\"?><data>".getBytes());
+				end = new ByteArrayInputStream("</data>".getBytes());
+			} else
+			{
+				pre = new ByteArrayInputStream("<?xml version = \"1.0\" encoding = \"gb2312\"?><data>".getBytes());
+				end = new ByteArrayInputStream("</data>".getBytes());
+			}
+
 			vec.addElement(pre);
 			vec.addElement(input);
 			vec.addElement(end);
@@ -46,6 +64,11 @@ public class XmlBuilder
 		{
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	public String getEncode(File file)
+	{
 		return null;
 	}
 

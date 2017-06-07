@@ -54,6 +54,7 @@ public class INput
 		StringBuilder str = new StringBuilder();
 		String path = file.getAbsolutePath();
 		InputStreamReader read = null;
+		System.out.println(path);
 		if (EncodingDetect.getJavaEncode(path).equals("UTF-8"))
 		{
 			read = new InputStreamReader(new FileInputStream(file), "UTF-8");
@@ -63,6 +64,8 @@ public class INput
 		} else if (EncodingDetect.getJavaEncode(path).equals("GBK"))
 		{
 			read = new InputStreamReader(new FileInputStream(file), "GBK");
+		}else {
+			read = new InputStreamReader(new FileInputStream(file), "UTF-8");
 		}
 
 		BufferedReader bufferedReader = new BufferedReader(read);
@@ -71,6 +74,7 @@ public class INput
 		{
 			str.append(txt.toString().trim());
 		}
+		bufferedReader.close();
 		return str.toString();
 	}
 
@@ -86,37 +90,49 @@ public class INput
 	public static void main(String[] args) throws Exception
 	{
 		String saomiao_dir = "D:\\saomiao";
-		String jieguo_huizong = "D:\\huizong.txt";
+		String jieguo_huizong = "D:\\you_OCR_result.txt";
 		File jie = new File(jieguo_huizong);
 
 		PrintStream printStream = new PrintStream(jie);
 		File file = new File(saomiao_dir);
-		List<File> list = getList(file);
+		List<File> r = new ArrayList<>();
+		getList(file,r);
 		String s1 = "文件输入：   ";
 		String s2 = "结果展示：   ";
-		for (File e : list)
+		int count = 1;
+		for (File e : r)
 		{
+			
 			try
 			{
 				String userinput = getStringFromTxt(e);
 				Map<Document, Float> result = SearchCore.search2(userinput);
 
+				printStream.println();
+				printStream.println();
+				printStream.println("**********第"+count+"个*******");
+				printStream.println();
+				printStream.println();
 				printStream.println(s1);
 				printStream.println(userinput);
 				printStream.println(s2);
+				int s = 1;
 				for (Entry<Document, Float> entry : result.entrySet())
 				{
+					
 					String id = entry.getKey().get("name");
 					String text = entry.getKey().get("text").replace("$", "");
 					Float score = entry.getValue();
-					printStream.println("--------------------------------------------------------------------");
-					printStream.println("--------搜索结果分割线------------");
-					printStream.println("--------------------------------------------------------------------");
+					printStream.println("-------------------------------------------------------------");
+					printStream.println("--------第"+count+"个题目的第"+s+"个搜索结果------------");
+					s++;
+					printStream.println("-------------------------------------------------------------");
 					printStream.println("id : " + id);
 					printStream.println("内容：  ");
 					printStream.println(text);
 					printStream.println("评分： " + score);
 				}
+				s=1;
 				printStream.println("******************************************************************");
 				printStream.println("**********输入题目的分割线*************");
 				printStream.println("******************************************************************");
@@ -128,6 +144,8 @@ public class INput
 			{
 
 			}
+			System.err.println("第"+count+"个搜索结束~");
+			count++;
 		}
 
 	}
@@ -140,18 +158,21 @@ public class INput
 	 * @return 目录下文件的列表
 	 */
 
-	public static List<File> getList(File file)
+	public static void getList(File file,List<File> list)
 	{
-		List<File> list = new ArrayList<>();
 		if (file.listFiles().length == 0)
 		{
 			System.err.println("目录为空！！！");
-			return null;
 		}
 		for (File e : file.listFiles())
 		{
-			list.add(e);
+			if(e.isDirectory())
+			{
+				getList(e,list);
+			}else 
+			{
+				list.add(e);
+			}
 		}
-		return list;
 	}
 }

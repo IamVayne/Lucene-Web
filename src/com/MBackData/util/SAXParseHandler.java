@@ -11,8 +11,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * 
- * 类: SAXParseHandler 
- * 概述: SAX解析的handler类
+ * 类: SAXParseHandler 概述: SAX解析的handler类
  */
 public class SAXParseHandler extends DefaultHandler
 {
@@ -30,15 +29,17 @@ public class SAXParseHandler extends DefaultHandler
 	}
 
 	/**
-	 * 方法：endDocument 
-	 * 文件解析结束之后执行该方法，后台控制台输出日志情况
+	 * 方法：endDocument 文件解析结束之后执行该方法，后台控制台输出日志情况
 	 */
 	@Override
 	public void endDocument() throws SAXException
 	{
 		super.endDocument();
 		filecount++;
-		System.out.println("第 " + filecount + " 个文件提取完毕~");
+		if (filecount % 10 == 0)
+		{
+			System.out.println(filecount + " 个文件提取完毕~");
+		}
 	}
 
 	@Override

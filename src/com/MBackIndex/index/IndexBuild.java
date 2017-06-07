@@ -29,8 +29,8 @@ import com.MBackData.window.lineContextOut;
  */
 public class IndexBuild
 {
-	static String INDEX_PATH = "D:\\index03";
-	static String SOURCE_PATH = "G:\\questionThree";
+	static String INDEX_PATH = "D:\\Luceneindex";
+	static String SOURCE_PATH = "D:\\Index-MemFileXml";
 	Analyzer analyzer = null;
 	IndexWriter indexWriter = null;
 	Directory directory = null;
@@ -53,6 +53,10 @@ public class IndexBuild
 		for (File file : files)
 		{
 			List<String> res = ct.getBaseString(file);
+			if(res==null)
+			{
+				continue;
+			}
 			ib.buildIndex(res);
 		}
 	}
@@ -88,6 +92,7 @@ public class IndexBuild
 		String file_name = lib_text_path.get(0);
 		String file_path = lib_text_path.get(1);
 		String file_text = lib_text_path.get(2);
+//		System.out.println(file_text);
 		try
 		{
 			analyzer = new IKAnalyzer();
